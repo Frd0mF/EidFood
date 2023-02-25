@@ -4,8 +4,7 @@ import Filters from "components/searchResults/Filters"
 import { useEffect, useState } from "react"
 import LoadingSkeleton from "components/searchResults/LoadingSkeleton"
 
-
-function index({ recipes }) {
+function index({ recipes, total }) {
 
     const [isRefreshing, setIsRefreshing] = useState(true)
 
@@ -17,6 +16,7 @@ function index({ recipes }) {
         <div className="flex flex-col items-center">
             {isRefreshing && <p>Refreshing...</p>}
             <SearchBar setIsRefreshing={setIsRefreshing} />
+            <p className="mb-12 -mt-12 text-2xl text-font-color-light">Total results: {total}</p>
             <div className="flex items-start w-full">
                 <Filters />
                 {
@@ -26,11 +26,16 @@ function index({ recipes }) {
                             <LoadingSkeleton />
                         </div>
                         :
-                        <div className={recipes.length === 0 && 'w-full'}>
-                            {recipes.length === 0 && <p className="w-2/3 text-2xl text-center text-font-color-light">No recipes found</p>}
-                            {recipes.map((recipe) => (
-                                <ResultCard recipe={recipe.recipe} />
-                            ))}
+                        <div className={recipes.length === 0 ? 'w-full' : ''}>
+                            <>
+                                {recipes.length === 0 && <p className="w-2/3 text-2xl text-center text-font-color-light">No recipes found</p>}
+                                {recipes.map((recipe, index) => (
+                                    <ResultCard
+                                        key={index}
+                                        recipe={recipe.recipe} />
+
+                                ))}
+                            </>
                         </div>
                 }
             </div>
@@ -41,8 +46,8 @@ function index({ recipes }) {
 export default index
 
 export async function getServerSideProps(context) {
-    const { q } = context.query
-    const data = await fetch(process.env.APP_URL + '/api/edmamAPI?q=' + q)
+    const { q, minCalories, maxCalories, health } = context.query
+    const data = await fetch(process.env.APP_URL + '/api/edmamAPI?q=' + q + '&minCalories=' + (minCalories || '') + '&maxCalories=' + (maxCalories || '') + '&health=' + (health || ''))
         .then(res => res.json())
 
     if (!data) {
@@ -52,7 +57,8 @@ export async function getServerSideProps(context) {
     }
     return {
         props: {
-            recipes: data
+            recipes: data.recipes || [],
+            total: data.total || 0,
         }
     }
 }

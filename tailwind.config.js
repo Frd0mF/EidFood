@@ -18,6 +18,7 @@ module.exports = {
         'font-color': "#333333",
         'font-color-light': "#645F5F",
         'input-color': "#F9F9F9",
+        'ingredient-background': "#F2EEE9",
       },
       screens: {
         '3xl': '2560px',

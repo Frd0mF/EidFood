@@ -18,12 +18,13 @@ function ResultCard({ recipe }) {
         <>
             <div className="flex items-start justify-between h-full max-w-5xl duration-500 ease-in-out hover:drop-shadow-2xl">
                 <div className="flex flex-col items-start justify-center w-[900px] h-full">
-                    <h1 className="w-11/12 text-4xl font-bold text-primary">{recipe.label}<span className='ml-3 text-2xl text-font-color-light'>({recipe.yield} Servings)</span></h1>
+                    <h1 className="w-11/12 text-4xl font-bold text-primary">{recipe.label}</h1>
+                    <h3 className='ml-3 text-2xl text-font-color-light'>({recipe.yield} Servings)</h3>
                     <div className="flex items-center mt-3 space-x-2">
                         {(hours || minutes) ?
                             <>
                                 <BsClockHistory className="text-2xl text-font-color-light" />
-                                <p className="text-xl text-font-color-light">Ready in <span className={!hours && 'hidden'}>{hours} hour</span> <span className={!minutes && 'hidden'}>{minutes} minutes</span></p>
+                                <p className="text-xl text-font-color-light">Ready in <span className={!hours ? 'hidden' : ''}>{hours} hour</span> <span className={!minutes ? 'hidden' : ''}>{minutes} minutes</span></p>
                             </>
                             : null}
                         {recipe.cautions.length ?
@@ -88,7 +89,7 @@ function ResultCard({ recipe }) {
                     </div>
                 </div>
             </div >
-            <Link href={`/recipe/${recipe.uri}`} className="flex items-center justify-center mt-6 text-xl duration-300 w-fit text-primary hover:text-primary-hover hover:scale-105 hover:drop-shadow-xl">
+            <Link href={`/recipe/${recipe.uri.split('#')[1]}`} className="flex items-center justify-center mt-6 text-xl duration-300 w-fit text-primary hover:text-primary-hover hover:scale-105 hover:drop-shadow-xl">
                 More Details
             </Link>
             <span className="flex items-center mx-auto justify-center w-2/3 h-0.5 mt-6 mb-12 bg-font-color"></span>

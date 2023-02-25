@@ -21,27 +21,27 @@ const RecipeCard = ({ imageSrc, name, prepTime, cookTime, rating }) => {
     }
 
     return (
-        <div className="md:max-w-md rounded overflow-hidden shadow-lg mx-auto md:w-96">
+        <div className="mx-auto overflow-hidden rounded shadow-lg md:max-w-md md:w-96">
             <Image width={512} height={512} alt="popular recipe image" className="w-full p-2" src={imageSrc} />
             <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">{name}</div>
+                <div className="mb-2 text-xl font-bold">{name}</div>
                 <div className="flex flex-col mb-4">
                     <div className="w-full">
                         <svg
-                            className="w-5 h-5 inline-block mr-2"
+                            className="inline-block w-5 h-5 mr-2"
                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M10 18a8 8 0 110-16 8 8 0 010 16zm-.5-1a7 7 0 100-14 7 7 0 000 14zm.5-7.41V5a.5.5 0 011 0v4c0 .28-.22.5-.5.5H5a.5.5 0 010-1h4.5z" clipRule="evenodd" />
                         </svg>
-                        <span className="text-gray-700 text-base">Prep time:</span>{" "}
+                        <span className="text-base text-gray-700">Prep time:</span>{" "}
                         {prepTime}
                     </div>
                     <div className="w-full">
                         <svg
-                            className="w-5 h-5 inline-block mr-2"
+                            className="inline-block w-5 h-5 mr-2"
                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M10 18a8 8 0 110-16 8 8 0 010 16zm-.5-1a7 7 0 100-14 7 7 0 000 14zm.5-7.41V5a.5.5 0 011 0v4c0 .28-.22.5-.5.5H5a.5.5 0 010-1h4.5z" clipRule="evenodd" />
                         </svg>
-                        <span className="text-gray-700 text-base">Cook time:</span>{" "}
+                        <span className="text-base text-gray-700">Cook time:</span>{" "}
                         {cookTime}
                     </div>
                 </div>
