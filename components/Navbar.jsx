@@ -2,13 +2,17 @@ import React, { useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Fade from 'react-reveal/Fade'
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from 'next/router';
 
 function Navbar() {
-    const menuRef = useRef()
 
+    const menuRef = useRef()
+    const { data: session } = useSession();
     const handleMobileMenu = () => {
         menuRef.current?.classList?.toggle('hidden')
     }
+    const router = useRouter();
     return (
         <nav>
             <Fade top>
@@ -44,7 +48,7 @@ function Navbar() {
                             ></path>
                         </svg>
                     </div>
-                    <div className="hidden w-full lg:pr-8 md:block lg:w-fit">
+                    <div className="hidden w-full lg:pr-8 md:flex lg:w-fit">
                         <Link
                             href="#popular-recipes"
                             className="p-4 link link-underline link-underline-black"
@@ -64,12 +68,32 @@ function Navbar() {
                             Contact
                         </Link>
                         {/* register CTA */}
-                        <Link
-                            href="/register"
-                            className="p-4 text-white rounded bg-primary hover:bg-primary-hover"
-                        >
-                            Register
-                        </Link>
+                        {
+                            session ? (
+                                <div className='flex items-center space-x-3'>
+                                    <img src={session.user.image} alt="user image" className="rounded-full w-14 h-14" />
+                                    <Link href="/profile">
+                                        <button className="p-4 link link-underline link-underline-black">
+                                            Saved
+                                        </button>
+                                    </Link>
+                                    <button
+                                        onClick={() => signOut()}
+                                        className="p-4 text-white rounded bg-primary hover:bg-primary-hover"
+                                    >
+                                        Logout
+                                    </button>
+                                </div>
+                            ) :
+                                router.pathname !== '/register' ? (
+                                    <Link
+                                        href="/register"
+                                        className="p-4 text-white rounded bg-primary hover:bg-primary-hover"
+                                    >
+                                        Register
+                                    </Link>)
+                                    : null
+                        }
                     </div>
                 </div>
                 {/* mobile menu */}
@@ -109,3 +133,4 @@ function Navbar() {
 }
 
 export default Navbar
+
