@@ -2,7 +2,7 @@ import { getSession } from "next-auth/react";
 import prisma from "../../../../lib/prismadb";
 
 export default async function handler(req, res) {
-    const { comment } = req.body;
+    const { comment, parentId } = req.body;
     const { recipeId } = req.query;
     const session = await getSession({ req });
     const userSession = session?.user;
@@ -17,17 +17,27 @@ export default async function handler(req, res) {
     })
     const userId = user.id;
 
-    const newComment = await prisma.comment.create({
+    await prisma.comment.create({
         data: {
             text: comment,
             recipeId,
             userId,
+            parentId,
 
+        }
+    });
+
+    const allComments = await prisma.comment.findMany({
+        where: {
+            recipeId: recipeId,
         },
         include: {
             user: true,
         },
+        orderBy: {
+            createdAt: "desc",
+        },
     });
 
-    res.status(201).json(newComment);
+    res.status(201).json(allComments);
 }

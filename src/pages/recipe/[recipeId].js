@@ -34,8 +34,21 @@ function recipeDetails({ recipe, dbComments }) {
         getPersonalRating();
     }, [])
 
-    const [heartIconHover, setHeartIconHover] = React.useState(false);
+    useEffect(() => {
+        console.log(session)
+        //get number of likes for each comment
+        Object.values(dbComments).forEach(comments => {
+            comments.forEach(comment => {
+                comment.numLikes = comment.commentLikes?.length
+                //is user logged in and has liked comment
+                comment.isLiked = comment.commentLikes?.some(like => like.userId === comment?.userId)
+                //remove comment likes from comment
+                // delete comment.commentLikes
+            })
+        })
+    }, [session])
 
+    const [heartIconHover, setHeartIconHover] = useState(false);
     function toHoursAndMinutes(totalMinutes) {
         const hours = Math.floor(totalMinutes / 60);
         const minutes = totalMinutes % 60;
@@ -172,7 +185,7 @@ function recipeDetails({ recipe, dbComments }) {
                             ))}
                         </div>
 
-                        <Comments dbComments={dbComments} />
+                        <Comments dbComments={dbComments} parentId={null} />
                     </div>
                 </div>
             </div>
@@ -297,20 +310,24 @@ export async function getStaticProps(context) {
             recipeId
         },
         include: {
-            replies: {
-                include: {
-                    user: true
-                }
-            },
-            user: true
+            user: true,
+            commentLikes: true
         },
+        orderBy: {
+            createdAt: 'desc'
+        }
     });
-
+    // group comments by parent
+    let groupedComments = {};
+    dbComments.forEach(comment => {
+        groupedComments[comment.parentId] = groupedComments[comment.parentId] || [];
+        groupedComments[comment.parentId].push(comment);
+    });
     if (dbRecipe) {
         return {
             props: {
                 recipe: dbRecipe,
-                dbComments
+                dbComments: groupedComments
             },
             revalidate: 60 * 60 * 24
         }
@@ -355,7 +372,7 @@ export async function getStaticProps(context) {
     return {
         props: {
             recipe: data?.recipes || {},
-            dbComments
+            dbComments: groupedComments
         },
         revalidate: 60 * 60 * 24
     }

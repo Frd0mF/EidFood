@@ -56,8 +56,8 @@ model User {
   sessions      Session[]
   recipes       Recipe[]
   comments      Comment[]
-  replies       Reply[]
   ratings       Rating[]
+  commentLikes  commentLikes[]
 }
 model Recipe {
   id          String   @id
@@ -79,9 +79,9 @@ model Recipe {
 model Rating {
   id          String   @id @default(cuid())
   rating      Float
-  recipe      Recipe   @relation(fields: [recipeId], references: [id])
+  recipe      Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
   recipeId    String
-  user        User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
   @@unique([userId, recipeId], name: "userId_recipeId")
 }
@@ -89,18 +89,22 @@ model Rating {
 model Comment {
   id          String   @id @default(cuid())
   text        String
-  recipe      Recipe   @relation(fields: [recipeId], references: [id])
+  recipe      Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
   recipeId    String
-  user        User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
-  replies     Reply[]
+  parent     Comment? @relation("parentChild", fields: [parentId], references: [id], onDelete: Cascade)
+  parentId   String?
+  children    Comment[] @relation("parentChild")
+  createdAt   DateTime @default(now())
+  commentLikes commentLikes[]
 }
 
-model Reply {
+model commentLikes {
   id          String   @id @default(cuid())
-  text        String
-  comment     Comment  @relation(fields: [commentId], references: [id])
+  comment     Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
   commentId   String
-  user        User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
+  @@unique([userId, commentId], name: "userId_commentId")
 }
