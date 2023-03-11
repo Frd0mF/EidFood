@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import Fade from 'react-reveal/Fade'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
-function SearchBar() {
+function SearchBar({ topRecipes }) {
 
     const [query, setQuery] = useState('')
     const router = useRouter()
@@ -37,11 +38,13 @@ function SearchBar() {
                 <div className="flex flex-col justify-center mt-4">
                     <p className="text-xl 3xl:text-2xl text-font-color-light">Popular Recipes</p>
                     <div className="flex mt-4 space-x-2">
-                        <p className="mt-2 text-base cursor-pointer 3xl:text-2xl text-primary">Tongseng</p>
-                        <p className="mt-2 text-base cursor-pointer 3xl:text-2xl text-primary">Rawon</p>
-                        <p className="mt-2 text-base cursor-pointer 3xl:text-2xl text-primary">Pizza</p>
-                        <p className="mt-2 text-base cursor-pointer 3xl:text-2xl text-primary">Burger</p>
-                        <p className="mt-2 text-base cursor-pointer 3xl:text-2xl text-primary">Bakwan</p>
+                        {
+                            topRecipes.map((recipe, index) => (
+                                <Link
+                                    href={`/recipe/${recipe.id}`}
+                                    key={index} className="text-base truncate cursor-pointer 3xl:text-2xl text-primary">{recipe.label}</Link>
+                            ))
+                        }
                     </div>
                 </div>
             </form>

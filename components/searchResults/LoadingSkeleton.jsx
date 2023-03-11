@@ -1,12 +1,12 @@
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-function LoadingSkeleton({ recipe }) {
+function LoadingSkeleton() {
 
 
     return (
         <>
-            <div className="flex items-start justify-between h-full max-w-5xl duration-500 ease-in-out hover:drop-shadow-2xl">
+            <div className="flex items-start justify-between h-full max-w-5xl p-2 duration-500 ease-in-out hover:drop-shadow-2xl">
                 <div className="flex flex-col items-start justify-center w-[900px] h-full">
                     <h1 className="w-11/12 text-4xl font-bold text-primary">
                         <Skeleton

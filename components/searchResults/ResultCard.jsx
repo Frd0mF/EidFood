@@ -89,7 +89,7 @@ function ResultCard({ recipe }) {
                     </div>
                 </div>
             </div >
-            <Link href={`/recipe/${recipe.uri.split('#')[1]}`} className="flex items-center justify-center mt-6 text-xl duration-300 w-fit text-primary hover:text-primary-hover hover:scale-105 hover:drop-shadow-xl">
+            <Link href={`/recipe/${recipe.uri.split('#')[1]}`} className="flex items-center justify-center w-32 mt-6 text-xl duration-300 text-primary hover:text-primary-hover hover:scale-105 hover:drop-shadow-xl">
                 More Details
             </Link>
             <span className="flex items-center mx-auto justify-center w-2/3 h-0.5 mt-6 mb-12 bg-font-color"></span>

@@ -32,16 +32,15 @@ function recipeDetails({ recipe, dbComments }) {
                 .then(data => setPersonalRating(+data?.personalRating))
         }
         getPersonalRating();
-    }, [])
 
+    }, [])
     useEffect(() => {
-        console.log(session)
         //get number of likes for each comment
         Object.values(dbComments).forEach(comments => {
             comments.forEach(comment => {
                 comment.numLikes = comment.commentLikes?.length
                 //is user logged in and has liked comment
-                comment.isLiked = comment.commentLikes?.some(like => like.userId === comment?.userId)
+                comment.isLiked = comment.commentLikes?.some(like => like.userId === session?.user?.id)
                 //remove comment likes from comment
                 // delete comment.commentLikes
             })
@@ -197,32 +196,37 @@ function recipeDetails({ recipe, dbComments }) {
                             className='object-cover rounded-md shadow-xl w-80 h-80'
                             src={recipe.image} alt={recipe.label} />
                         {
-                            isSaved ?
-                                heartIconHover ?
-                                    <BsHeart
-                                        onMouseLeave={() => setHeartIconHover(false)}
-                                        onClick={unsaveRecipe}
-                                        className="absolute top-0 right-0 w-12 h-12 p-2 text-primary" />
-                                    :
-                                    <BsHeartFill
-                                        onMouseEnter={() => setHeartIconHover(true)}
-                                        onClick={unsaveRecipe}
-                                        className="absolute top-0 right-0 w-12 h-12 p-2 text-primary" />
+                            session?.user ?
+                                (
+                                    isSaved ?
+                                        heartIconHover ?
+                                            <BsHeart
+                                                onMouseLeave={() => setHeartIconHover(false)}
+                                                onClick={unsaveRecipe}
+                                                className="absolute top-0 right-0 w-12 h-12 p-2 text-primary" />
+                                            :
+                                            <BsHeartFill
+                                                onMouseEnter={() => setHeartIconHover(true)}
+                                                onClick={unsaveRecipe}
+                                                className="absolute top-0 right-0 w-12 h-12 p-2 text-primary" />
+                                        :
+                                        heartIconHover ?
+                                            <BsHeartFill
+                                                onMouseLeave={() => setHeartIconHover(false)}
+                                                onClick={saveRecipe}
+                                                className="absolute top-0 right-0 w-12 h-12 p-2 text-primary" />
+                                            :
+                                            <BsHeart
+                                                onMouseEnter={() => setHeartIconHover(true)}
+                                                onClick={saveRecipe}
+                                                className="absolute top-0 right-0 w-12 h-12 p-2 text-primary" />
+                                )
                                 :
-                                heartIconHover ?
-                                    <BsHeartFill
-                                        onMouseLeave={() => setHeartIconHover(false)}
-                                        onClick={saveRecipe}
-                                        className="absolute top-0 right-0 w-12 h-12 p-2 text-primary" />
-                                    :
-                                    <BsHeart
-                                        onMouseEnter={() => setHeartIconHover(true)}
-                                        onClick={saveRecipe}
-                                        className="absolute top-0 right-0 w-12 h-12 p-2 text-primary" />
+                                null
                         }
                     </div>
 
-                    <p className="text-xl text-font-color-light -mb-3">My Rating</p>
+                    <p className="-mb-3 text-xl text-font-color-light">My Rating</p>
                     <ReactStars
                         key={personalRating}
                         count={5}
@@ -238,15 +242,15 @@ function recipeDetails({ recipe, dbComments }) {
                     />
                     {
                         !session?.user ?
-                            <div className="flex space-x-4 mb-3">
+                            <div className="flex mb-3 space-x-4">
                                 <h1 className="text-xl font-semibold text-font-color-light">Please
-                                    <Link href="/register" className="underline mx-1">sign in</Link> to rate this recipe</h1>
+                                    <Link href="/register" className="mx-1 underline">sign in</Link> to rate this recipe</h1>
                             </div>
                             :
                             null
                     }
                     <div className='flex flex-col'>
-                        <div className='bg-ingredient-background px-3 py-6'>
+                        <div className='px-3 py-6 bg-ingredient-background'>
                             <h1 className='text-3xl font-black'>Ingredients</h1>
                             <ul className='flex flex-col mt-6 space-y-2'>
                                 {recipe.ingredients.map((ingredient, index) => (
@@ -286,6 +290,7 @@ import Link from 'next/link';
 
 export async function getStaticProps(context) {
     const { recipeId } = context.params;
+
 
     const dbRecipe = await prisma.recipe.findUnique({
         where: {

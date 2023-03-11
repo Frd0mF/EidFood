@@ -59,43 +59,43 @@ function Filters() {
     const debounceMaxCalories = debounce(handleMaxCalories, 500)
 
     return (
-        <div className="flex flex-col items-center justify-center w-3/12 h-full ml-16">
-            <div className="flex flex-col items-center justify-center h-full space-y-10">
-                <div className="flex flex-col items-start justify-center w-full space-y-5 h-1/4">
-                    <p className="self-center text-2xl text-font-color-light">Filters</p>
-                    <div className="flex flex-col items-start justify-center w-full space-y-5 h-1/2">
-                        <p className="text-xl underline text-font-color-light">Calories</p>
-                        <div className="flex flex-col items-start justify-start w-full">
-                            Min<input
-                                onChange={debounceMinCalories}
-                                type="number" className="w-1/2 h-10 pl-5 pr-1 text-xl bg-transparent border-2 rounded-md focus:outline-none text-font-color-light border-accent-primary" />
-                            Max <input
-                                onChange={debounceMaxCalories}
-                                type="number" className="w-1/2 h-10 pl-5 pr-1 text-xl bg-transparent border-2 rounded-md focus:outline-none text-font-color-light border-accent-primary" />
-                        </div>
+
+        <div className="flex flex-col items-center justify-center h-full space-y-10">
+            <div className="flex flex-col items-start justify-center w-full space-y-5 h-1/4">
+                <p className="self-center text-2xl text-font-color-light">Filters</p>
+                <div className="flex flex-col items-start justify-center w-full space-y-5 h-1/2">
+                    <p className="text-xl underline text-font-color-light">Calories</p>
+                    <div className="flex flex-col items-start justify-start w-full">
+                        Min<input
+                            onChange={debounceMinCalories}
+                            type="number" className="w-1/2 h-10 pl-5 pr-1 text-xl bg-transparent border-2 rounded-md focus:outline-none text-font-color-light border-accent-primary" />
+                        Max <input
+                            onChange={debounceMaxCalories}
+                            type="number" className="w-1/2 h-10 pl-5 pr-1 text-xl bg-transparent border-2 rounded-md focus:outline-none text-font-color-light border-accent-primary" />
                     </div>
-                    <p className="text-xl underline text-font-color-light">Intolerances / Allergies</p>
-                    <div className="flex flex-col items-center justify-center w-full space-y-5 h-1/2">
-                        <div className="flex flex-col items-start justify-center w-full space-y-5 h-1/2">
-                            {intolerances.map((intolerance, index) => {
-                                return (
-                                    <div className="flex items-center justify-start w-full space-x-5" key={index}>
-                                        <input type="checkbox"
-                                            defaultChecked={selectedIntolerances.includes(intolerance)}
-                                            className="w-5 h-5 accent-primary"
-                                            onClick={() => {
-                                                handleIntollerance(intolerance)
-                                            }}
-                                        />
-                                        <p className="text-xl text-font-color-light first-letter:uppercase">{intolerance}</p>
-                                    </div>
-                                )
-                            })}
-                        </div>
+                </div>
+                <p className="text-xl underline text-font-color-light">Intolerances / Allergies</p>
+                <div className="flex flex-col items-center justify-center w-full space-y-5 h-1/2">
+                    <div className="flex flex-col items-start justify-center w-full space-y-5 h-1/2">
+                        {intolerances.map((intolerance, index) => {
+                            return (
+                                <div className="flex items-center justify-start w-full space-x-5" key={index}>
+                                    <input type="checkbox"
+                                        defaultChecked={selectedIntolerances.includes(intolerance)}
+                                        className="w-5 h-5 accent-primary"
+                                        onClick={() => {
+                                            handleIntollerance(intolerance)
+                                        }}
+                                    />
+                                    <p className="text-xl text-font-color-light first-letter:uppercase">{intolerance}</p>
+                                </div>
+                            )
+                        })}
                     </div>
                 </div>
             </div>
         </div>
+
     )
 }
 

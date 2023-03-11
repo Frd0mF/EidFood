@@ -45,18 +45,18 @@ function Comments({ dbComments, parentId }) {
         <div className="flex flex-col space-y-4">
             {
                 session?.user ? (
-                    <div className="flex space-x-4 mt-6">
+                    <div className="flex mt-6 space-x-4">
                         <div className="flex flex-col space-y-2">
                             <img
                                 className="w-10 h-10 rounded-full"
                                 src={session.user.image}
                                 alt=""
                             />
-                            <p className="text-sm text-font-color-light font-semibold">{session.user.name}</p>
+                            <p className="text-sm font-semibold text-font-color-light">{session.user.name}</p>
                         </div>
                         <form
                             onSubmit={AddComment}
-                            className="w-full flex flex-col items-end">
+                            className="flex flex-col items-end w-full">
                             <textarea
                                 value={comment}
                                 onChange={(e) => setComment(e.target.value)}
@@ -65,7 +65,7 @@ function Comments({ dbComments, parentId }) {
                             ></textarea>
                             <button
                                 disabled={!comment}
-                                className="w-32 p-2 mt-2 text-white bg-primary rounded-lg hover:bg-primary-hover disabled:bg-font-color focus:outline-none focus:bg-primary-hover"
+                                className="w-32 p-2 mt-2 text-white rounded-lg bg-primary hover:bg-primary-hover disabled:bg-font-color focus:outline-none focus:bg-primary-hover"
                                 type="submit"
                             >
                                 Comment
@@ -73,9 +73,9 @@ function Comments({ dbComments, parentId }) {
                         </form>
                     </div>) :
                     (
-                        <div className="flex space-x-4 mt-6">
+                        <div className="flex mt-6 space-x-4">
                             <h1 className="text-2xl font-semibold text-font-color-light">Please
-                                <Link href="/register" className="underline mx-1">sign in</Link> to comment</h1>
+                                <Link href="/register" className="mx-1 underline">sign in</Link> to comment</h1>
                         </div>
                     )
             }

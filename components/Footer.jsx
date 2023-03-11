@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Fade from 'react-reveal/Fade'
+import Link from 'next/link'
 
 function Footer() {
     return (
@@ -14,11 +15,24 @@ function Footer() {
                     <p className="text-2xl text-font-color-light">© 2021 Recipe App. All rights reserved.</p>
                 </div>
                 <div className="flex flex-wrap items-center justify-center space-x-5 md:space-x-10">
-                    <p className="text-2xl cursor-pointer text-font-color-light">Terms of Service</p>
-                    <p className="text-2xl cursor-pointer text-font-color-light">Privacy Policy</p>
-                    <p className="text-2xl cursor-pointer text-font-color-light">Contact Us</p>
-                    <p className="text-2xl cursor-pointer text-font-color-light">About Us</p>
-                    <p className="text-2xl cursor-pointer text-font-color-light">FAQ</p>
+                    <Link
+                        href={`${process.env.NEXT_PUBLIC_URL}/#popular-recipes`}
+                        className="text-2xl cursor-pointer text-font-color-light"
+                    >
+                        Popular Recipes
+                    </Link>
+                    <Link
+                        href={`${process.env.NEXT_PUBLIC_URL}/#what-they-say`}
+                        className="text-2xl cursor-pointer text-font-color-light"
+                    >
+                        What They Say
+                    </Link>
+                    <Link
+                        href={`${process.env.NEXT_PUBLIC_URL}/#what-they-say`}
+                        className="text-2xl underline cursor-pointer text-font-color-light"
+                    >
+                        Github
+                    </Link>
                 </div>
             </Fade>
         </div>

@@ -1,16 +1,33 @@
 import { getSession } from "next-auth/react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const Profile = ({ savedRecipes }) => {
+    const [recipesShown, setRecipesShown] = useState(8);
+    const [showMore, setShowMore] = useState(true);
+    const [derivedRecipes, setDerivedRecipes] = useState(savedRecipes.slice(0, recipesShown));
+
+    const showMoreRecipes = () => {
+        setRecipesShown(recipesShown + 8);
+    }
+
+    useEffect(() => {
+        setDerivedRecipes(savedRecipes.slice(0, recipesShown));
+        if (recipesShown >= savedRecipes.length) {
+            setShowMore(false);
+        }
+    }, [recipesShown])
+
+
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen py-2">
-            <main className="flex flex-col items-center justify-center flex-1 w-full px-20 text-center">
-                <h1 className="text-6xl font-base text-primary">
-                    Profile
+        <div className="flex flex-col items-center justify-center min-h-screen py-12">
+            <main className="flex flex-col flex-1 w-full px-20">
+                <h1 className="text-4xl font-base text-primary">
+                    Saved Recipes
                 </h1>
-                <div className="flex flex-wrap items-start justify-around mt-6 sm:w-full">
+                <div className="grid grid-cols-4 mt-6 gap-y-6 sm:w-full">
                     {
-                        savedRecipes?.map((recipe) => {
+                        derivedRecipes?.map((recipe) => {
                             return (
                                 <div
                                     key={recipe.id}
@@ -20,7 +37,7 @@ const Profile = ({ savedRecipes }) => {
                                         <div className="mb-2 text-xl font-bold truncate">{recipe.label}</div>
 
                                     </div>
-                                    <div className="px-6 pt-4 pb-2">
+                                    <div className="px-6 pt-4 pb-2 truncate">
                                         <span className="inline-block px-3 py-1 mb-2 mr-2 text-sm font-semibold text-gray-700 bg-gray-200 rounded-full">{recipe.cuisineType}</span>
                                         <span className="inline-block px-3 py-1 mb-2 mr-2 text-sm font-semibold text-gray-700 bg-gray-200 rounded-full">{recipe.mealType}</span>
                                         <span className="inline-block px-3 py-1 mb-2 mr-2 text-sm font-semibold text-gray-700 bg-gray-200 rounded-full">{recipe.dishType}</span>
@@ -33,6 +50,15 @@ const Profile = ({ savedRecipes }) => {
                         })
                     }
                 </div>
+                {
+                    showMore && (
+                        <button
+                            onClick={showMoreRecipes}
+                            className="flex items-center justify-center mt-6 text-2xl font-semibold text-font-color hover:text-font-color-light">
+                            Show More
+                        </button>
+                    )
+                }
             </main >
         </div >
 
@@ -44,6 +70,14 @@ export default Profile
 export async function getServerSideProps(context) {
     const userSession = await getSession(context)
     //get all recipes
+    if (!userSession) {
+        return {
+            redirect: {
+                destination: '/register',
+                permanent: false
+            }
+        }
+    }
     const user = await prisma.user.findUnique({
         where: {
             email: userSession?.user?.email

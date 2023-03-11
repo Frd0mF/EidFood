@@ -7,8 +7,6 @@ import { BsHeart, BsHeartFill } from 'react-icons/bs';
 function Comment({ comments, parentId, AddComment, reply, setReply, showReply, setShowReply }) {
     const { data: session } = useSession();
     const replyRef = useRef(null);
-    const [isLiked, setIsLiked] = useState(false)
-    const [numLikes, setNumLikes] = useState(0)
     const [heartIconHover, setHeartIconHover] = useState(false);
 
     const likeComment = async (commentId) => {
@@ -42,16 +40,18 @@ function Comment({ comments, parentId, AddComment, reply, setReply, showReply, s
             )
     };
 
+
+
     return (
         comments[parentId]?.map((comment) => (
-            <div className="flex flex-col space-y-2 ml-4 pl-4 divide-x-2 divide-primary divide-opacity-40">
-                <div className="flex space-x-4 items-center" key={comment.id}>
+            <div className="flex flex-col pl-4 ml-4 space-y-2 divide-x-2 divide-primary divide-opacity-40">
+                <div className="flex items-center space-x-4" key={comment.id}>
                     <img
                         className="w-10 h-10 rounded-full"
                         src={comment.user?.image}
                         alt=""
                     />
-                    <div className="flex-1 p-2 border border-font-color-light border-opacity-20 rounded-lg">
+                    <div className="flex-1 p-2 border rounded-lg border-font-color-light border-opacity-20">
                         <p className="font-semibold">{comment.user?.name}</p>
                         <p className="text-sm">{comment.text}</p>
                         {
@@ -59,61 +59,63 @@ function Comment({ comments, parentId, AddComment, reply, setReply, showReply, s
                                 (
                                     heartIconHover === comment?.id ?
                                         <>
-                                            <p className="inline text-sm text-font-color-light font-semibold p-1">{comment?.numLikes}</p>
+                                            <p className="inline p-1 text-sm font-semibold text-font-color-light">{comment?.numLikes}</p>
                                             <BsHeart
                                                 onMouseLeave={() => setHeartIconHover(false)}
                                                 onClick={() => likeComment(comment?.id)}
-                                                className="inline w-4 h-4  text-primary" />
+                                                className="inline w-4 h-4 text-primary" />
                                         </>
                                         :
                                         <>
-                                            <p className="inline text-sm text-font-color-light font-semibold p-1">{comment?.numLikes}</p>
+                                            <p className="inline p-1 text-sm font-semibold text-font-color-light">{comment?.numLikes}</p>
                                             <BsHeartFill
                                                 onMouseEnter={() => setHeartIconHover(comment?.id)}
                                                 onClick={() => likeComment(comment?.id)}
-                                                className="inline w-4 h-4  text-primary" />
+                                                className="inline w-4 h-4 text-primary" />
                                         </>
                                 )
                                 :
                                 (
-                                    heartIconHover === comment?.id ?
+                                    heartIconHover === comment?.id && session?.user ?
                                         <>
-                                            <p className="inline text-sm text-font-color-light font-semibold p-1">{comment?.numLikes}</p>
+                                            <p className="inline p-1 text-sm font-semibold text-font-color-light">{comment?.numLikes}</p>
                                             <BsHeartFill
                                                 onMouseLeave={() => setHeartIconHover(false)}
                                                 onClick={() => likeComment(comment?.id)}
-                                                className="inline w-4 h-4  text-primary" />
+                                                className="inline w-4 h-4 text-primary" />
                                         </>
                                         :
                                         <>
-                                            <p className="inline text-sm text-font-color-light font-semibold p-1">{comment?.numLikes}</p>
+                                            <p className="inline p-1 text-sm font-semibold text-font-color-light">{comment?.numLikes}</p>
                                             <BsHeart
                                                 onMouseEnter={() => setHeartIconHover(comment?.id)}
                                                 onClick={() => likeComment(comment?.id)}
-                                                className="inline w-4 h-4  text-primary" />
+                                                className="inline w-4 h-4 text-primary" />
                                         </>
                                 )
                         }
-                        <button
-                            onClick={() => { showReply === comment?.id ? setShowReply(false) : setReply(''); setShowReply(comment?.id); replyRef.current?.focus() }}
-                            className="text-sm text-primary ml-1.5 font-semibold hover:underline">Like</button>
-                        <button
-                            onClick={() => { showReply === comment?.id ? setShowReply(false) : setReply(''); setShowReply(comment?.id); replyRef.current?.focus() }}
-                            className="text-sm text-primary ml-1.5 font-semibold hover:underline">Reply</button>
+                        {
+                            session?.user ?
+
+                                <button
+                                    onClick={() => { showReply === comment?.id ? setShowReply(false) : setReply(''); setShowReply(comment?.id); replyRef.current?.focus() }}
+                                    className="text-sm text-primary ml-1.5 font-semibold hover:underline">Reply</button>
+                                : null
+                        }
                         {
                             showReply === comment?.id && (
                                 <div className="flex w-1/3 space-x-2">
-                                    <div className="flex items-center flex-col space-y-2">
+                                    <div className="flex flex-col items-center space-y-2">
                                         <img
                                             className="w-6 h-6 rounded-full"
                                             src={session?.user?.image}
                                             alt=""
                                         />
-                                        <p className="text-xs text-font-color-light font-semibold">{session?.user?.name}</p>
+                                        <p className="text-xs font-semibold text-font-color-light">{session?.user?.name}</p>
                                     </div>
                                     <form
                                         onSubmit={(e) => AddComment(e, comment.id, true)}
-                                        className="w-full flex flex-col items-end">
+                                        className="flex flex-col items-end w-full">
                                         <textarea
                                             ref={replyRef}
                                             rows={1}
@@ -124,7 +126,7 @@ function Comment({ comments, parentId, AddComment, reply, setReply, showReply, s
                                         ></textarea>
                                         <button
                                             disabled={!reply}
-                                            className="w-16 p-2 mt-2 text-white bg-primary text-xs rounded-lg hover:bg-primary-hover disabled:bg-font-color focus:outline-none focus:bg-primary-hover"
+                                            className="w-16 p-2 mt-2 text-xs text-white rounded-lg bg-primary hover:bg-primary-hover disabled:bg-font-color focus:outline-none focus:bg-primary-hover"
                                             type="submit"
                                         >
                                             Reply

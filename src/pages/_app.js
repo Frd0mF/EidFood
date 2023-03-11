@@ -4,11 +4,11 @@ import Footer from 'components/Footer'
 import Navbar from 'components/Navbar'
 import { SessionProvider } from "next-auth/react";
 
-
 const RobotoFont = Roboto({
   weight: '400',
   subsets: ['latin']
 })
+
 
 export default function App({ Component,
   pageProps: { session, ...pageProps } }) {

@@ -1,21 +1,48 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Fade from 'react-reveal/Fade'
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from 'next/router';
+import Router from "next/router"
+
 
 function Navbar() {
 
+    const [isLoading, setIsLoading] = useState(false);
+
+
+    Router.onRouteChangeStart = url => {
+        setIsLoading(true);
+    }
+
+    Router.onRouteChangeComplete = () => {
+        setIsLoading(false);
+    }
+
+    Router.onRouteChangeError = () => {
+        setIsLoading(false);
+    }
+
     const menuRef = useRef()
     const { data: session } = useSession();
+    const [menuAnimation, setMenuAnimation] = useState({
+        top: true,
+        left: false,
+    })
     const handleMobileMenu = () => {
         menuRef.current?.classList?.toggle('hidden')
+        setMenuAnimation({
+            top: !menuAnimation.top,
+            left: !menuAnimation.left,
+        })
     }
     const router = useRouter();
     return (
         <nav>
-            <Fade top>
+            <Fade
+                {...menuAnimation}
+            >
                 <div
                     className="relative flex items-center justify-between h-16 text-xl text-black"
                     role="navigation"
@@ -50,31 +77,24 @@ function Navbar() {
                     </div>
                     <div className="hidden w-full lg:pr-8 md:flex lg:w-fit">
                         <Link
-                            href="#popular-recipes"
+                            href={`${process.env.NEXT_PUBLIC_URL}/#popular-recipes`}
                             className="p-4 link link-underline link-underline-black"
                         >
                             Popular Recipes
                         </Link>
                         <Link
-                            href="#what-they-say"
+                            href={`${process.env.NEXT_PUBLIC_URL}/#what-they-say`}
                             className="p-4 link link-underline link-underline-black "
                         >
                             What They Say
                         </Link>
-                        <Link
-                            href="#contact"
-                            className="p-4 link link-underline link-underline-black "
-                        >
-                            Contact
-                        </Link>
-                        {/* register CTA */}
                         {
                             session ? (
                                 <div className='flex items-center space-x-3'>
                                     <img src={session.user.image} alt="user image" className="rounded-full w-14 h-14" />
                                     <Link href="/profile">
                                         <button className="p-4 link link-underline link-underline-black">
-                                            Saved
+                                            Profile
                                         </button>
                                     </Link>
                                     <button
@@ -97,7 +117,9 @@ function Navbar() {
                     </div>
                 </div>
                 {/* mobile menu */}
-                <div ref={menuRef} className="hidden md:hidden">
+                <div
+                    className='hidden md:hidden'
+                    ref={el => menuRef.current = el}>
                     <Link
                         href="/"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-hover hover:text-white"
@@ -128,6 +150,34 @@ function Navbar() {
                     </Link>
                 </div>
             </Fade>
+            {
+                isLoading && (
+                    <div className="fixed top-0 bottom-0 left-0 right-0 z-50 w-full min-h-full bg-black bg-opacity-25">
+                        <div className="flex items-center justify-center min-h-full">
+                            <svg
+                                className="w-10 h-10 animate-spin text-primary"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                ></circle>
+                                <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8v8z"
+                                ></path>
+                            </svg>
+                        </div>
+                    </div>
+                )
+            }
         </nav>
     )
 }

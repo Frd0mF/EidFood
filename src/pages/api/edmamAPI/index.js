@@ -26,6 +26,7 @@ export default async function handler(req, res) {
     const data = await response.json();
     res.status(200).json({
         recipes: data.recipe || data.hits,
-        total: data.count || 0
+        total: data.count || 0,
+        next: data._links?.next?.href || null,
     });
 }
