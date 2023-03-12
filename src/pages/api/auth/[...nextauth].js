@@ -15,27 +15,6 @@ export default NextAuth({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         }),
-        CredentialsProvider({
-            name: 'Credentials',
-            credentials: {
-                username: { label: "Username", type: "text", placeholder: "jsmith" },
-                password: { label: "Password", type: "password" }
-            },
-            authorize: async (credentials) => {
-                const user = await prisma.user.findUnique({
-                    where: {
-                        username: credentials.username
-                    }
-                })
-                if (user) {
-                    const isValid = await bcrypt.compare(credentials.password, user.password)
-                    if (isValid) {
-                        return user
-                    }
-                }
-                return null
-            }
-        })
     ],
     callbacks: {
         session: async ({ session, user }) => {

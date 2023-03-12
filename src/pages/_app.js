@@ -3,6 +3,7 @@ import { Roboto } from '@next/font/google'
 import Footer from 'components/Footer'
 import Navbar from 'components/Navbar'
 import { SessionProvider } from "next-auth/react";
+import { Toaster } from 'react-hot-toast';
 
 const RobotoFont = Roboto({
   weight: '400',
@@ -15,6 +16,7 @@ export default function App({ Component,
   return (
     <SessionProvider session={session}>
       <div className="px-6 py-6 lg:px-12">
+        <Toaster />
         <Navbar />
         <main className={(RobotoFont.className)}>
           <Component {...pageProps} />

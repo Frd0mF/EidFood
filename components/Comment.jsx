@@ -1,10 +1,13 @@
 import React, { useRef, useState } from 'react'
 import { useSession } from "next-auth/react";
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
+import { toast } from 'react-hot-toast';
 
 
 
-function Comment({ comments, parentId, AddComment, reply, setReply, showReply, setShowReply }) {
+function Comment({ dbComments, parentId, AddComment, reply, setReply, showReply, setShowReply }) {
+
+    const [comments, setComments] = useState(dbComments || {});
     const { data: session } = useSession();
     const replyRef = useRef(null);
     const [heartIconHover, setHeartIconHover] = useState(false);
@@ -21,10 +24,25 @@ function Comment({ comments, parentId, AddComment, reply, setReply, showReply, s
         })
             .then(res => {
                 if (res.status === 200) {
+                    toast.success('Comment liked',
+                        {
+                            iconTheme: {
+                                primary: '#FAAC01',
+                            },
+                        })
+                    return res.json()
+                } else if (res.status === 201) {
+                    toast.success('Comment unliked',
+                        {
+                            iconTheme: {
+                                primary: '#FAAC01',
+                            },
+                        })
                     return res.json()
                 }
             }).then(data => {
-                comments = comments[parentId].map((comment) => {
+                let tempComments = [...comments[parentId]]
+                tempComments.map((comment) => {
                     if (comment.id === commentId) {
                         if (data.message === 'Comment liked') {
                             comment.isLiked = true
@@ -35,6 +53,7 @@ function Comment({ comments, parentId, AddComment, reply, setReply, showReply, s
                         }
                     }
                 })
+                setComments({ ...comments, [parentId]: tempComments })
             })
             .catch(err => console.log(`Error: ${err}`)
             )
@@ -48,7 +67,7 @@ function Comment({ comments, parentId, AddComment, reply, setReply, showReply, s
                 <div className="flex items-center space-x-4" key={comment.id}>
                     <img
                         className="w-10 h-10 rounded-full"
-                        src={comment.user?.image}
+                        src={comment?.user?.image}
                         alt=""
                     />
                     <div className="flex-1 p-2 border rounded-lg border-font-color-light border-opacity-20">
@@ -137,7 +156,7 @@ function Comment({ comments, parentId, AddComment, reply, setReply, showReply, s
                         }
                     </div>
                 </div>
-                <Comment comments={comments} parentId={comment.id} AddComment={AddComment} reply={reply} setReply={setReply} showReply={showReply} setShowReply={setShowReply} />
+                <Comment dbComments={comments} parentId={comment.id} AddComment={AddComment} reply={reply} setReply={setReply} showReply={showReply} setShowReply={setShowReply} />
             </div>
         ))
     )

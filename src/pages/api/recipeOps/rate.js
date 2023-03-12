@@ -1,4 +1,5 @@
 import { getSession } from "next-auth/react";
+import prisma from "../../../lib/prismadb";
 
 export default async function handler(req, res) {
     const { recipeId, rating } = req.body;
@@ -49,7 +50,25 @@ export default async function handler(req, res) {
             }
         })
     }
-    res.status(200).json({ message: "Recipe rated" });
+
+    //get new average rating from recipe
+    const newAvgrating = await prisma.rating.aggregate({
+        where: {
+            recipeId: recipeId
+        },
+        _avg: {
+            rating: true
+        },
+        _count: {
+            rating: true
+        }
+    })
+    res.status(200).json(
+        {
+            message: "Recipe rated",
+            newAvgrating: newAvgrating?._avg?.rating,
+            newNumRatings: newAvgrating?._count?.rating
+        });
 
 
 }

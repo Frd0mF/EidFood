@@ -2,15 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import ReactStars from "react-rating-stars-component";
+import toHoursAndMinutes from "helpers/toHoursAndMinutes";
 
 const RecipeCard = ({ recipeId, imageSrc, name, prepTime, cuisineType, rating, numberOfRatings }) => {
-
-    function toHoursAndMinutes(totalMinutes) {
-        const hours = Math.floor(totalMinutes / 60);
-        const minutes = totalMinutes % 60;
-
-        return { hours, minutes };
-    }
 
     const { hours, minutes } = toHoursAndMinutes(prepTime);
 

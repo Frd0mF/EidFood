@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Comment from "./Comment";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 function Comments({ dbComments, parentId }) {
@@ -9,12 +9,12 @@ function Comments({ dbComments, parentId }) {
     const [comment, setComment] = useState("");
     const [showReply, setShowReply] = useState();
     const [reply, setReply] = useState("");
-    const context = useRouter();
+    const router = useRouter();
+    const { recipeId } = router.query;
     const { data: session } = useSession();
 
     const AddComment = async (e, parentId, isReply) => {
         e.preventDefault();
-        const recipeId = context.query.recipeId;
         const newComments = await fetch(`/api/comments/addComment/${recipeId}`, {
             method: "POST",
             headers: {
@@ -32,13 +32,20 @@ function Comments({ dbComments, parentId }) {
             groupedComments[comment.parentId] = groupedComments[comment.parentId] || [];
             groupedComments[comment.parentId].push(comment);
         });
+        Object.values(groupedComments).forEach((comments) => {
+            comments.forEach((comment) => {
+                comment.numLikes = comment.commentLikes?.length
+                //is user logged in and has liked comment
+                comment.isLiked = comment.commentLikes?.some(
+                    (like) => like.userId === session?.user?.id
+                )
+            })
+        })
         setComments(groupedComments);
         setComment("");
         setReply("");
         setShowReply(false);
     }
-
-
 
 
     return (
@@ -75,11 +82,14 @@ function Comments({ dbComments, parentId }) {
                     (
                         <div className="flex mt-6 space-x-4">
                             <h1 className="text-2xl font-semibold text-font-color-light">Please
-                                <Link href="/register" className="mx-1 underline">sign in</Link> to comment</h1>
+                                <Link href={`/register?redirect=${recipeId}`}
+                                    className="mx-1 underline">sign in</Link> to comment</h1>
                         </div>
                     )
             }
-            <Comment comments={comments} parentId={parentId} AddComment={AddComment} reply={reply} setReply={setReply} showReply={showReply} setShowReply={setShowReply} />
+            <Comment
+                key={JSON.stringify(comments)}
+                dbComments={comments} parentId={parentId} AddComment={AddComment} reply={reply} setReply={setReply} showReply={showReply} setShowReply={setShowReply} />
         </div>
     );
 }

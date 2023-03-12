@@ -3,14 +3,9 @@ import { BsClockHistory, BsArrowRight } from 'react-icons/bs'
 import { RxDash } from 'react-icons/rx'
 import { RiAlarmWarningLine } from 'react-icons/ri'
 import Link from 'next/link'
+import toHoursAndMinutes from 'helpers/toHoursAndMinutes'
 
 function ResultCard({ recipe }) {
-    function toHoursAndMinutes(totalMinutes) {
-        const hours = Math.floor(totalMinutes / 60);
-        const minutes = totalMinutes % 60;
-
-        return { hours, minutes };
-    }
 
     const { hours, minutes } = toHoursAndMinutes(recipe.totalTime);
 

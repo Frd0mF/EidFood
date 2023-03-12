@@ -33,6 +33,7 @@ export default async function handler(req, res) {
         },
         include: {
             user: true,
+            commentLikes: true,
         },
         orderBy: {
             createdAt: "desc",

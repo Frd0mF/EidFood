@@ -37,7 +37,7 @@ export default async function handler(req, res) {
             console.log(err);
         }
         )
-        res.status(200).json({
+        res.status(201).json({
             message: "Comment unliked",
             numberOfLikes: await prisma.commentLikes.count({
                 where: {
