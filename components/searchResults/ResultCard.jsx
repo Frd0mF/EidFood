@@ -7,13 +7,13 @@ import toHoursAndMinutes from 'helpers/toHoursAndMinutes'
 
 function ResultCard({ recipe }) {
 
-    const { hours, minutes } = toHoursAndMinutes(recipe.totalTime);
+    const { hours, minutes } = toHoursAndMinutes(recipe?.totalTime);
 
     return (
         <>
             <div className="flex items-start justify-between h-full max-w-5xl duration-500 ease-in-out hover:drop-shadow-2xl">
                 <div className="flex flex-col items-start justify-center w-[900px] h-full">
-                    <h1 className="w-11/12 text-4xl font-bold text-primary">{recipe.label}</h1>
+                    <h1 className="w-11/12 text-4xl font-bold text-primary">{recipe?.label}</h1>
                     <h3 className='ml-3 text-2xl text-font-color-light'>({recipe.yield} Servings)</h3>
                     <div className="flex items-center mt-3 space-x-2">
                         {(hours || minutes) ?
@@ -22,7 +22,7 @@ function ResultCard({ recipe }) {
                                 <p className="text-xl text-font-color-light">Ready in <span className={!hours ? 'hidden' : ''}>{hours} hour</span> <span className={!minutes ? 'hidden' : ''}>{minutes} minutes</span></p>
                             </>
                             : null}
-                        {recipe.cautions.length ?
+                        {recipe.cautions?.length ?
                             <>
                                 <RiAlarmWarningLine className="text-2xl text-font-color-light" />
                                 {recipe.cautions.map((caution, index) => {
@@ -57,17 +57,17 @@ function ResultCard({ recipe }) {
                         </div>
                         <div className="flex flex-col items-center justify-center">
                             <h3 className="text-2xl text-font-color-light">Protein</h3>
-                            <h3 className="text-xl text-font-color-light">{(recipe.totalNutrients.PROCNT.quantity / recipe.yield).toFixed(0)}g</h3>
+                            <h3 className="text-xl text-font-color-light">{(recipe.totalNutrients?.PROCNT.quantity / recipe.yield).toFixed(0)}g</h3>
                             <span className="flex items-center justify-center w-full h-0.5 bg-primary"></span>
                         </div>
                         <div className="flex flex-col items-center justify-center">
                             <h3 className="text-2xl text-font-color-light">Fat</h3>
-                            <h3 className="text-xl text-font-color-light">{(recipe.totalNutrients.FAT.quantity / recipe.yield).toFixed(0)}g</h3>
+                            <h3 className="text-xl text-font-color-light">{(recipe.totalNutrients?.FAT.quantity / recipe.yield).toFixed(0)}g</h3>
                             <span className="flex items-center justify-center w-full h-0.5 bg-primary"></span>
                         </div>
                         <div className="flex flex-col items-center justify-center">
                             <h3 className="text-2xl text-font-color-light">Carbs</h3>
-                            <h3 className="text-xl text-font-color-light">{(recipe.totalNutrients.CHOCDF.quantity / recipe.yield).toFixed(0)}g</h3>
+                            <h3 className="text-xl text-font-color-light">{(recipe.totalNutrients?.CHOCDF.quantity / recipe.yield).toFixed(0)}g</h3>
                             <span className="flex items-center justify-center w-full h-0.5 bg-primary"></span>
                         </div>
                     </div>
@@ -77,14 +77,17 @@ function ResultCard({ recipe }) {
                         <img
                             className='rounded-md shadow-xl w-[256px]'
                             src={recipe.image} alt={recipe.label} />
-                        <div className="flex flex-wrap items-center justify-center gap-2 mt-3">
-                            {recipe.dietLabels[0] && <button className="text-[0.8vi] px-4 py-2 font-semibold text-white rounded-full focus:outline-none hover:bg-font-color-light active:shadow-none bg-font-color">{recipe.dietLabels[0]}</button>}
-                            {recipe.dietLabels[1] && <button className="text-[0.8vi] px-4 py-2 font-semibold text-white rounded-full focus:outline-none hover:bg-font-color-light active:shadow-none bg-font-color">{recipe.dietLabels[1]}</button>}
-                        </div>
+                        {recipe.dietLabels &&
+                            <div className="flex flex-wrap items-center justify-center gap-2 mt-3">
+                                {recipe.dietLabels[0] && <button className="text-[0.8vi] px-4 py-2 font-semibold text-white rounded-full focus:outline-none hover:bg-font-color-light active:shadow-none bg-font-color">{recipe.dietLabels[0]}</button>}
+                                {recipe.dietLabels[1] && <button className="text-[0.8vi] px-4 py-2 font-semibold text-white rounded-full focus:outline-none hover:bg-font-color-light active:shadow-none bg-font-color">{recipe.dietLabels[1]}</button>}
+                            </div>
+                        }
                     </div>
                 </div>
             </div >
-            <Link href={`/recipe/${recipe.uri.split('#')[1]}`} className="flex items-center justify-center w-32 mt-6 text-xl duration-300 text-primary hover:text-primary-hover hover:scale-105 hover:drop-shadow-xl">
+            <Link
+                href={recipe.uri ? `/recipe/${recipe?.uri?.split('#')[1]}` : `/recipe/${recipe.id}`} className="flex items-center justify-center w-32 mt-6 text-xl duration-300 text-primary hover:text-primary-hover hover:scale-105 hover:drop-shadow-xl">
                 More Details
             </Link>
             <span className="flex items-center mx-auto justify-center w-2/3 h-0.5 mt-6 mb-12 bg-font-color"></span>

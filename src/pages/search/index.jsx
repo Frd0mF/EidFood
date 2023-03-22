@@ -6,6 +6,7 @@ import LoadingSkeleton from "components/searchResults/LoadingSkeleton"
 import InfiniteScroll from "react-infinite-scroll-component";
 
 function index({ recipes, total, next }) {
+    console.log(recipes)
 
     const [isRefreshing, setIsRefreshing] = useState(true)
     const [derivedRecipes, setDerivedRecipes] = useState()
@@ -99,10 +100,45 @@ function index({ recipes, total, next }) {
 
 export default index
 
+import prisma from "../../lib/prismadb"
 export async function getServerSideProps(context) {
     const { q, minCalories, maxCalories, health } = context.query
-    const data = await fetch(process.env.APP_URL + '/api/edmamAPI?q=' + q + '&minCalories=' + (minCalories || '') + '&maxCalories=' + (maxCalories || '') + '&health=' + (health || ''))
+    let data = await fetch(process.env.APP_URL + '/api/edmamAPI?q=' + q + '&minCalories=' + (minCalories || '') + '&maxCalories=' + (maxCalories || '') + '&health=' + (health || ''))
         .then(res => res.json())
+
+
+    const prismafulltextsearch = await prisma.recipe.findMany({
+        where: {
+            // AND: [
+            //     {
+            label: {
+                search: q
+            },
+            //     },
+            // ]
+        },
+    })
+    let recipe = []
+
+    if (prismafulltextsearch.length) {
+        prismafulltextsearch?.forEach((item, index) => {
+            recipe.push({
+                recipe: item
+            }
+            )
+        })
+    }
+    console.log(recipe)
+
+    if (data?.length) {
+        //add to the beginning of data.recipes
+        data = data.recipes.push(
+            ...recipe)
+    } else {
+        data.recipes = recipe
+
+    }
+
 
 
     if (!data) {

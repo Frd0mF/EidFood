@@ -4,6 +4,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -58,9 +59,10 @@ model User {
   comments      Comment[]
   ratings       Rating[]
   commentLikes  commentLikes[]
+  recipesCreated Recipe[] @relation("RecipesCreated")
 }
 model Recipe {
-  id          String   @id
+  id          String   @id @default(cuid())
   label        String
   yield       Int
   image       String
@@ -71,7 +73,11 @@ model Recipe {
   ingredients Json[]
   healthLabels Json[]
   digest Json[]
-  users      User[]
+  CreatedBy   User?  @relation("RecipesCreated",fields: [userId], references: [id], onDelete: Cascade) 
+  userId       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  users      User[] 
   comments   Comment[]
   ratings    Rating[]
 }

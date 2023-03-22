@@ -22,6 +22,16 @@ const Profile = ({ savedRecipes }) => {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen py-12">
             <main className="flex flex-col flex-1 w-full px-20">
+                {/* <div className="flex items-center justify-between w-full">
+                    <h1 className="text-4xl font-base text-primary">
+                        Created Recipes
+                    </h1>
+                    <button className="flex items-center justify-center px-4 py-2 mt-6 text-2xl font-semibold text-white rounded-md bg-primary hover:bg-primary-hover">
+                        <Link href="/create-recipe">
+                            Create Recipe
+                        </Link>
+                    </button>
+                </div> */}
                 <h1 className="text-4xl font-base text-primary">
                     Saved Recipes
                 </h1>
