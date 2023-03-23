@@ -3,29 +3,16 @@ import ResultCard from "components/searchResults/ResultCard"
 import Filters from "components/searchResults/Filters"
 import { useEffect, useState } from "react"
 import LoadingSkeleton from "components/searchResults/LoadingSkeleton"
-import InfiniteScroll from "react-infinite-scroll-component";
 
-function index({ recipes, total, next }) {
-    console.log(recipes)
+function index({ recipes, total }) {
 
     const [isRefreshing, setIsRefreshing] = useState(true)
-    const [derivedRecipes, setDerivedRecipes] = useState()
-    const [derivedNext, setDerivedNext] = useState(next)
     const [showScrollToTop, setShowScrollToTop] = useState(false)
 
     useEffect(() => {
         setIsRefreshing(false)
-        setDerivedRecipes(recipes)
     }, [recipes])
 
-    const fetchMoreData = async () => {
-        await fetch(next)
-            .then(res => res.json())
-            .then(data => {
-                setDerivedRecipes([...derivedRecipes, ...data.hits])
-                setDerivedNext(data.next)
-            })
-    }
 
     useEffect(() => {
         window.addEventListener('scroll', () => {
@@ -50,7 +37,7 @@ function index({ recipes, total, next }) {
     return (
         <div className="flex flex-col items-center">
             <SearchBar setIsRefreshing={setIsRefreshing} />
-            <p className="mb-12 -mt-12 text-2xl text-font-color-light">Total results: {total}</p>
+            <p className="mb-12 -mt-12 text-2xl text-font-color-light">Total results: {total} (Showing first 20 due to API limits)</p>
             <div className="flex items-start w-full">
                 <div className="flex flex-col items-center justify-center w-3/12 h-full ml-16">
                     <Filters />
@@ -65,21 +52,12 @@ function index({ recipes, total, next }) {
                         <div className={recipes.length === 0 ? 'w-full' : ''}>
                             <>
                                 {recipes.length === 0 && <p className="w-2/3 text-2xl text-center text-font-color-light">No recipes found or max requests reached</p>}
-                                <InfiniteScroll
-                                    dataLength={derivedRecipes.length}
-                                    next={() => {
-                                        fetchMoreData()
-                                    }}
-                                    hasMore={derivedNext !== undefined}
-                                    loader={derivedNext !== undefined && <LoadingSkeleton />}
-                                >
-                                    {derivedRecipes.map((recipe, index) => (
-                                        <ResultCard
-                                            key={index}
-                                            recipe={recipe.recipe} />
+                                {recipes.map((recipe, index) => (
+                                    <ResultCard
+                                        key={index}
+                                        recipe={recipe.recipe} />
 
-                                    ))}
-                                </InfiniteScroll>
+                                ))}
                             </>
                             {
                                 showScrollToTop &&
@@ -100,46 +78,10 @@ function index({ recipes, total, next }) {
 
 export default index
 
-import prisma from "../../lib/prismadb"
 export async function getServerSideProps(context) {
     const { q, minCalories, maxCalories, health } = context.query
     let data = await fetch(process.env.APP_URL + '/api/edmamAPI?q=' + q + '&minCalories=' + (minCalories || '') + '&maxCalories=' + (maxCalories || '') + '&health=' + (health || ''))
         .then(res => res.json())
-
-
-    const prismafulltextsearch = await prisma.recipe.findMany({
-        where: {
-            // AND: [
-            //     {
-            label: {
-                search: q
-            },
-            //     },
-            // ]
-        },
-    })
-    let recipe = []
-
-    if (prismafulltextsearch.length) {
-        prismafulltextsearch?.forEach((item, index) => {
-            recipe.push({
-                recipe: item
-            }
-            )
-        })
-    }
-    console.log(recipe)
-
-    if (data?.length) {
-        //add to the beginning of data.recipes
-        data = data.recipes.push(
-            ...recipe)
-    } else {
-        data.recipes = recipe
-
-    }
-
-
 
     if (!data) {
         return {
@@ -150,7 +92,6 @@ export async function getServerSideProps(context) {
         props: {
             recipes: data.recipes || [],
             total: data.total || 0,
-            next: data.next || 0
         }
     }
 }
