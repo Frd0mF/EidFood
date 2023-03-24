@@ -92,14 +92,14 @@ function recipeDetails({ dbRecipe, dbComments }) {
         })
             .then((res) => {
                 if (res.status === 200) {
-                    setIsSaved(true)
+                    setIsSaved(false)
                     toast.success('Recipe saved', {
                         iconTheme: {
                             primary: '#FAAC01',
                         },
                     })
                 } else if (res.status === 201) {
-                    setIsSaved(false)
+                    setIsSaved(true)
                     toast.success('Recipe unsaved', {
                         iconTheme: {
                             primary: '#FAAC01',
@@ -248,7 +248,7 @@ function recipeDetails({ dbRecipe, dbComments }) {
                                 value={personalRating}
                                 onChange={changeRating}
                                 edit={session?.user ? true : false}
-                                size={34}
+                                size={25}
                                 isHalf={true}
                                 emptyIcon={<i className="far fa-star"></i>}
                                 halfIcon={<i className="fa fa-star-half-alt"></i>}
