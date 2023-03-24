@@ -273,7 +273,7 @@ function recipeDetails({ dbRecipe, dbComments }) {
                     </div>
 
                     <div className="grid w-11/12 grid-cols-1 place-items-center sm:grid-cols-2 mx-auto md:grid-cols-3 gap-x-4 lg:grid-cols-4 xl:grid-cols-3 2xl:grid-cols-4">
-                        {recipe.ingredients.map((ingredient, index) => (
+                        {recipe.ingredients?.map((ingredient, index) => (
                             <div
                                 key={index}
                                 className="flex flex-col items-center w-64 sm:w-48 p-1 my-2 bg-ingredient-background xl:w-fit h-fit"
@@ -303,7 +303,7 @@ function recipeDetails({ dbRecipe, dbComments }) {
                         <div className="px-3 py-6 bg-ingredient-background">
                             <h1 className="text-3xl font-black">Ingredients</h1>
                             <ul className="flex flex-col mt-6 space-y-2">
-                                {recipe.ingredients.map((ingredient, index) => (
+                                {recipe.ingredients?.map((ingredient, index) => (
                                     <li
                                         key={index}
                                         className="flex flex-row items-center space-x-2"
@@ -344,7 +344,7 @@ function recipeDetails({ dbRecipe, dbComments }) {
                             Health Labels
                         </h1>
                         <div className="flex flex-row flex-wrap">
-                            {recipe.healthLabels.map((label, index) => (
+                            {recipe.healthLabels?.map((label, index) => (
                                 <div
                                     key={index}
                                     className="mx-1 my-2 text-xl rounded-full text-font-color-light bg-primary"
@@ -440,7 +440,7 @@ function recipeDetails({ dbRecipe, dbComments }) {
                         <div className="px-3 py-6 bg-ingredient-background">
                             <h1 className="text-3xl font-black">Ingredients</h1>
                             <ul className="flex flex-col mt-6 space-y-2">
-                                {recipe.ingredients.map((ingredient, index) => (
+                                {recipe.ingredients?.map((ingredient, index) => (
                                     <li
                                         key={index}
                                         className="flex flex-row items-center space-x-2"
