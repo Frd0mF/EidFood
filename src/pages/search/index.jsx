@@ -49,8 +49,9 @@ function index({ recipes, total }) {
                             <LoadingSkeleton />
                         </div>
                         :
-                        <div className={recipes.length === 0 ? 'w-full' : ''}>
+                        <div className='w-full px-6'>
                             <>
+
                                 {recipes.length === 0 && <p className="w-2/3 text-base text-center xl:text-2xl text-font-color-light">No recipes found or max requests reached</p>}
                                 {recipes.map((recipe, index) => (
                                     <ResultCard

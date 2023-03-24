@@ -21,7 +21,7 @@ const Profile = ({ savedRecipes }) => {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen py-12">
-            <main className="flex flex-col flex-1 w-full px-20">
+            <main className="flex flex-col w-full px-6 md:px-20">
                 {/* <div className="flex items-center justify-between w-full">
                     <h1 className="text-4xl font-base text-primary">
                         Created Recipes

@@ -11,19 +11,19 @@ function ResultCard({ recipe }) {
 
     return (
         <>
-            <div className="flex items-start h-full max-w-5xl space-x-4 duration-500 ease-in-out xl:justify-between hover:drop-shadow-2xl">
+            <div className="flex flex-col xs:flex-row sm:items-start items-center space-y-6 max-w-5xl sm:space-x-4 duration-500 ease-in-out xl:justify-between hover:drop-shadow-2xl">
                 <div className="flex flex-col items-start justify-center w-full xl:w-[900px] h-full">
                     <h1 className="w-11/12 text-2xl font-bold xl:text-4xl text-primary">{recipe?.label}</h1>
                     <h3 className='ml-3 text-xl xl:text-2xl text-font-color-light'>({recipe.yield} Servings)</h3>
-                    <div className="flex items-center mt-3 space-x-2">
+                    <div className="flex flex-col sm:flex-row items-center mt-3 space-x-2">
                         {(hours || minutes) ?
-                            <>
+                            <div className='flex space-x-2 items-center'>
                                 <BsClockHistory className="text-xl xl:text-2xl text-font-color-light" />
                                 <p className="text-xl text-font-color-light">Ready in <span className={!hours ? 'hidden' : ''}>{hours} hour</span> <span className={!minutes ? 'hidden' : ''}>{minutes} minutes</span></p>
-                            </>
+                            </div>
                             : null}
                         {recipe.cautions?.length ?
-                            <>
+                            <div className='flex space-x-2 items-center'>
                                 <RiAlarmWarningLine className="text-xl xl:text-2xl text-font-color-light" />
                                 {recipe.cautions.map((caution, index) => {
                                     return (
@@ -31,20 +31,20 @@ function ResultCard({ recipe }) {
                                     )
                                 })
                                 }
-                            </>
+                            </div>
                             : null
                         }
                     </div>
 
-                    <div className="flex items-center mt-3 ml-4 space-x-2">
+                    <div className="flex items-center mt-3 sm:ml-4 space-x-2">
                         <RxDash className="text-xl xl:text-2xl text-font-color-light" />
                         <p className="text-base xl:text-xl text-font-color-light">Cuisine type: {recipe.cuisineType}</p>
                     </div>
-                    <div className="flex items-center ml-4 space-x-2">
+                    <div className="flex items-center sm:ml-4 space-x-2">
                         <RxDash className="text-xl xl:text-2xl text-font-color-light" />
                         <p className="text-base xl:text-xl text-font-color-light">Meal type: {recipe.mealType}</p>
                     </div>
-                    <div className="flex items-center ml-4 space-x-2">
+                    <div className="flex items-center sm:ml-4 space-x-2">
                         <RxDash className="text-xl xl:text-2xl text-font-color-light" />
                         <p className="text-base xl:text-xl text-font-color-light">Dish type: {recipe.dishType}</p>
                     </div>
@@ -72,7 +72,7 @@ function ResultCard({ recipe }) {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col items-end justify-end w-4/12 h-full my-auto">
+                <div className="flex flex-col items-end justify-end w-7/12 sm:w-4/12 h-full sm:my-auto">
                     <div className="flex flex-col items-center justify-center">
                         <img
                             className='rounded-md shadow-xl xl:w-[256px]'

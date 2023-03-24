@@ -10,7 +10,7 @@ export default function Home({ topRecipes }) {
     <>
       <div className="md:h-[100vh] 3xl:h-full">
         <div className="flex flex-col items-center lg:flex-row lg:mx-12 lg:ml-24 md:mt-24">
-          <div className="z-10">
+          <div className="z-10 w-full">
             <Heading />
             <SearchBar topRecipes={topRecipes} />
           </div>
