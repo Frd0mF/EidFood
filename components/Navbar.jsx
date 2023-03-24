@@ -120,34 +120,54 @@ function Navbar() {
                 <div
                     className='hidden md:hidden'
                     ref={el => menuRef.current = el}>
+                    {
+                        session && (
+                            <div className='flex items-center px-4 space-x-2 text-sm text-gray-700 hover:bg-primary-hover hover:text-white'>
+                                <img src={session.user.image} alt="user image" className="w-8 h-8 rounded-full" />
+                                <Link href="/profile">
+                                    <button className="p-4">
+                                        Profile
+                                    </button>
+                                </Link>
+                            </div>
+                        )
+                    }
                     <Link
-                        href="/"
+                        href={`${process.env.NEXT_PUBLIC_URL}/#popular-recipes`}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-hover hover:text-white"
                         role="menuitem"
                     >
-                        Home
+                        Popular Recipes
                     </Link>
                     <Link
-                        href="/"
+                        href={`${process.env.NEXT_PUBLIC_URL}/#what-they-say`}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-hover hover:text-white"
                         role="menuitem"
                     >
-                        About
+                        What They Say
                     </Link>
-                    <Link
-                        href="/"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-hover hover:text-white"
-                        role="menuitem"
-                    >
-                        Contact
-                    </Link>
-                    <Link
-                        href="/"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-hover hover:text-white"
-                        role="menuitem"
-                    >
-                        Login
-                    </Link>
+                    {
+                        session ? (
+                            <button
+                                onClick={() => signOut()}
+                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-hover hover:text-white"
+                            >
+                                Logout
+                            </button>
+                        ) :
+                            router.pathname !== '/register' ? (
+                                <div
+                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-hover hover:text-white"
+                                >
+                                    <Link
+                                        href="/register"
+                                        className='p-2 text-white rounded bg-primary hover:bg-primary-hover'
+                                    >
+                                        Register
+                                    </Link>
+                                </div>)
+                                : null
+                    }
                 </div>
             </Fade>
             {

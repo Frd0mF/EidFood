@@ -62,7 +62,7 @@ function Filters() {
 
         <div className="flex flex-col items-center justify-center h-full space-y-10">
             <div className="flex flex-col items-start justify-center w-full space-y-5 h-1/4">
-                <p className="self-center text-2xl text-font-color-light">Filters</p>
+                <p className="text-2xl xl:self-center text-font-color-light">Filters</p>
                 <div className="flex flex-col items-start justify-center w-full space-y-5 h-1/2">
                     <p className="text-xl underline text-font-color-light">Calories</p>
                     <div className="flex flex-col items-start justify-start w-full">

@@ -28,7 +28,8 @@ function Footer() {
                         What They Say
                     </Link>
                     <Link
-                        href={`${process.env.NEXT_PUBLIC_URL}/#what-they-say`}
+                        href='https://github.com/Frd0mF/EidFood'
+                        target={'_blank'}
                         className="text-2xl underline cursor-pointer text-font-color-light"
                     >
                         Github

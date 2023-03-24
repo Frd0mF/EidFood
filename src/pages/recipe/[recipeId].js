@@ -115,85 +115,168 @@ function recipeDetails({ dbRecipe, dbComments }) {
         console.log('error')
     }
 
+
+
     return (
-        <div className="grid grid-cols-12 my-12 mx-36">
-            <div className="col-span-8">
+        <div className="grid grid-cols-12 my-12 2xl:mx-32">
+            <div className="col-span-12 xl:col-span-8">
                 <div className="flex flex-col">
-                    <div className="flex flex-col items-start">
-                        <h1 className="text-4xl font-bold text-primary">
-                            {recipe.label}
-                        </h1>
-                        <h3 className="ml-3 text-2xl text-font-color-light">
-                            ({recipe.yield} Servings)
-                        </h3>
-                    </div>
-                    <div className="flex flex-row my-3 space-x-12">
-                        <div className="flex flex-col items-center mt-3 ml-4 space-x-2">
-                            {hours || minutes ? (
-                                <p className="text-xl text-font-color-light">
-                                    Total time
-                                </p>
-                            ) : null}
-                            <p className="text-xl text-font-color-light">
-                                <span className={!hours ? 'hidden' : ''}>
-                                    {hours} hour
-                                </span>{' '}
-                                <span className={!minutes ? 'hidden' : ''}>
-                                    {minutes} minutes
-                                </span>
-                            </p>
-                        </div>
-                        <div className="flex flex-col items-center mt-3 ml-4 space-x-2">
-                            <p className="text-xl text-font-color-light">
-                                Cuisine type
-                            </p>
-                            <p className="text-xl text-font-color-light first-letter:uppercase">
-                                {recipe.cuisineType}
-                            </p>
-                        </div>
-                        <div className="flex flex-col items-center mt-3 ml-4 space-x-2">
-                            <p className="text-xl text-font-color-light">
-                                Meal type
-                            </p>
-                            <p className="text-xl text-font-color-light first-letter:uppercase">
-                                {recipe.mealType}
-                            </p>
-                        </div>
-                        <div className="flex flex-col items-center mt-3 ml-4 space-x-2">
-                            <p className="text-xl text-font-color-light">
-                                Dish type
-                            </p>
-                            <p className="text-xl text-font-color-light first-letter:uppercase">
-                                {recipe.dishType}
-                            </p>
-                        </div>
-                        <div className="flex flex-col items-center mt-3 ml-4 space-x-2">
-                            <p className="text-xl text-font-color-light">
-                                {recipe.numRatings} Review(s)
-                            </p>
-                            <div className="flex mb-4">
-                                <ReactStars
-                                    key={recipe?.avgRating}
-                                    count={5}
-                                    value={recipe?.avgRating}
-                                    size={42}
-                                    isHalf={true}
-                                    edit={false}
-                                    emptyIcon={<i className="far fa-star"></i>}
-                                    halfIcon={
-                                        <i className="fa fa-star-half-alt"></i>
-                                    }
-                                    fullIcon={<i className="fa fa-star"></i>}
-                                    activeColor="#ffd700"
-                                />
+                    <div className="flex flex-row items-center justify-between">
+                        <div>
+                            <div className="flex flex-col items-start">
+                                <h1 className="text-2xl font-bold md:text-3xl xl:text-4xl text-primary">
+                                    {recipe.label}
+                                </h1>
+                                <h3 className="ml-3 text-base md:text-xl xl:text-2xl text-font-color-light">
+                                    ({recipe.yield} Servings)
+                                </h3>
+                            </div>
+                            <div className="flex flex-row flex-wrap my-3 lg:flex-nowrap xl:space-x-12">
+                                <div className="flex flex-col items-center w-1/2 mt-3 space-x-2 text-center lg:w-full md:w-1/3 xl:ml-4">
+                                    {hours || minutes ? (
+                                        <p className="text-base md:text-lg xl:text-xl text-font-color-light">
+                                            Total time
+                                        </p>
+                                    ) : null}
+                                    <p className="text-base md:text-lg xl:text-xl text-font-color-light">
+                                        <span className={!hours ? 'hidden' : ''}>
+                                            {hours} hour
+                                        </span>{' '}
+                                        <span className={!minutes ? 'hidden' : ''}>
+                                            {minutes} minutes
+                                        </span>
+                                    </p>
+                                </div>
+                                <div className="flex flex-col items-center w-1/2 mt-3 space-x-2 text-center md:w-1/3 lg:w-full xl:ml-4">
+                                    <p className="text-base md:text-lg xl:text-xl text-font-color-light">
+                                        Cuisine type
+                                    </p>
+                                    <p className="text-base md:text-lg xl:text-xl text-font-color-light first-letter:uppercase">
+                                        {recipe.cuisineType}
+                                    </p>
+                                </div>
+                                <div className="flex flex-col items-center w-1/2 mt-3 space-x-2 text-center md:w-1/3 lg:w-full xl:ml-4">
+                                    <p className="text-base md:text-lg xl:text-xl text-font-color-light">
+                                        Meal type
+                                    </p>
+                                    <p className="text-base md:text-lg xl:text-xl text-font-color-light first-letter:uppercase">
+                                        {recipe.mealType}
+                                    </p>
+                                </div>
+                                <div className="flex flex-col items-center w-1/2 mt-3 space-x-2 text-center lg:w-full xl:ml-4">
+                                    <p className="text-base md:text-lg xl:text-xl text-font-color-light">
+                                        Dish type
+                                    </p>
+                                    <p className="text-base md:text-lg xl:text-xl text-font-color-light first-letter:uppercase">
+                                        {recipe.dishType}
+                                    </p>
+                                </div>
+                                <div className="flex flex-col items-center w-full mt-3 space-x-2 text-center md:w-1/2 lg:w-full xl:ml-4">
+                                    <p className="text-xl md:text-lg text-font-color-light">
+                                        {recipe.numRatings} Review(s)
+                                    </p>
+                                    <div className="flex mb-4">
+                                        <ReactStars
+                                            key={recipe?.avgRating}
+                                            count={5}
+                                            value={recipe?.avgRating}
+                                            size={24}
+                                            isHalf={true}
+                                            edit={false}
+                                            emptyIcon={<i className="far fa-star"></i>}
+                                            halfIcon={
+                                                <i className="fa fa-star-half-alt"></i>
+                                            }
+                                            fullIcon={<i className="fa fa-star"></i>}
+                                            activeColor="#ffd700"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <div className="flex flex-col items-center justify-center xl:hidden">
+                            <div className="relative">
+                                <img
+                                    onError={handleImgError}
+                                    className="object-cover rounded-md shadow-xl xl:w-80 xl:h-80"
+                                    src={recipe.image}
+                                    alt={recipe.label}
+                                />
+                                {session?.user ? (
+                                    isSaved ? (
+                                        heartIconHover ? (
+                                            <BsHeart
+                                                onMouseLeave={() =>
+                                                    setHeartIconHover(false)
+                                                }
+                                                onClick={saveRecipe}
+                                                className="absolute top-0 right-0 w-12 h-12 p-2 text-primary"
+                                            />
+                                        ) : (
+                                            <BsHeartFill
+                                                onMouseEnter={() =>
+                                                    setHeartIconHover(true)
+                                                }
+                                                onClick={saveRecipe}
+                                                className="absolute top-0 right-0 w-12 h-12 p-2 text-primary"
+                                            />
+                                        )
+                                    ) : heartIconHover ? (
+                                        <BsHeartFill
+                                            onMouseLeave={() =>
+                                                setHeartIconHover(false)
+                                            }
+                                            onClick={saveRecipe}
+                                            className="absolute top-0 right-0 w-12 h-12 p-2 text-primary"
+                                        />
+                                    ) : (
+                                        <BsHeart
+                                            onMouseEnter={() => setHeartIconHover(true)}
+                                            onClick={saveRecipe}
+                                            className="absolute top-0 right-0 w-12 h-12 p-2 text-primary"
+                                        />
+                                    )
+                                ) : null}
+                            </div>
+
+                            <p className="-mb-3 text-base xl:text-xl text-font-color-light">
+                                My Rating
+                            </p>
+                            <ReactStars
+                                key={personalRating}
+                                count={5}
+                                value={personalRating}
+                                onChange={changeRating}
+                                edit={session?.user ? true : false}
+                                size={34}
+                                isHalf={true}
+                                emptyIcon={<i className="far fa-star"></i>}
+                                halfIcon={<i className="fa fa-star-half-alt"></i>}
+                                fullIcon={<i className="fa fa-star"></i>}
+                                activeColor="#ffd700"
+                            />
+                            {!session?.user ? (
+                                <div className="flex mb-3 space-x-4">
+                                    <h1 className="text-xl font-semibold text-font-color-light">
+                                        Please
+                                        <Link
+                                            href={`/register?redirect=${recipeId}`}
+                                            className="mx-1 underline"
+                                        >
+                                            sign in
+                                        </Link>{' '}
+                                        to rate this recipe
+                                    </h1>
+                                </div>
+                            ) : null}
+                        </div>
                     </div>
-                    <div className="grid grid-cols-4">
+
+                    <div className="grid w-11/12 grid-cols-2 mx-auto md:grid-cols-3 gap-x-4 lg:grid-cols-4 xl:grid-cols-3 2xl:grid-cols-4">
                         {recipe.ingredients.map((ingredient, index) => (
                             <div
                                 key={index}
-                                className="flex flex-col items-center p-1 my-2 bg-ingredient-background w-fit h-fit"
+                                className="flex flex-col items-center w-48 p-1 my-2 bg-ingredient-background xl:w-fit h-fit"
                             >
                                 {ingredient.image ? (
                                     <LazyLoadImage
@@ -215,7 +298,47 @@ function recipeDetails({ dbRecipe, dbComments }) {
                             </div>
                         ))}
                     </div>
-                    <div className="flex flex-col mt-12">
+                    <div className="flex flex-col xl:hidden">
+                        <div className="px-3 py-6 bg-ingredient-background">
+                            <h1 className="text-3xl font-black">Ingredients</h1>
+                            <ul className="flex flex-col mt-6 space-y-2">
+                                {recipe.ingredients.map((ingredient, index) => (
+                                    <li
+                                        key={index}
+                                        className="flex flex-row items-center space-x-2"
+                                    >
+                                        <div className="flex flex-col items-center justify-center w-8 h-8 text-xl text-white rounded-full bg-primary">
+                                            <p>{index + 1}</p>
+                                        </div>
+                                        <p className="text-xl w-96 text-font-color-light">
+                                            {ingredient.text}.
+                                        </p>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <h1 className="mt-12 text-2xl font-bold text-font-color-light">
+                            Nutrients (per serving)
+                        </h1>
+                        {recipe.digest?.map((item, index) => (
+                            <div
+                                key={index}
+                                className="flex flex-row w-full p-2 px-6 my-2 bg-ingredient-background"
+                            >
+                                <p className="flex justify-start w-1/3 text-xl text-font-color-light">
+                                    {item.label}
+                                </p>
+                                <p className="flex justify-center w-1/3 text-xl text-font-color-light">
+                                    {(item.total / recipe.yield).toFixed(2)}{' '}
+                                    {item.unit}
+                                </p>
+                                <p className="flex justify-end w-1/3 text-xl text-font-color-light">
+                                    {(item.daily / recipe.yield).toFixed(2)} %
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="flex flex-col w-11/12 mt-12">
                         <h1 className="text-2xl font-bold text-font-color-light">
                             Health Labels
                         </h1>
@@ -236,12 +359,12 @@ function recipeDetails({ dbRecipe, dbComments }) {
                     </div>
                 </div>
             </div>
-            <div className="col-span-4">
+            <div className="hidden col-span-4 xl:block">
                 <div className="flex flex-col items-center">
                     <div className="relative">
                         <img
                             onError={handleImgError}
-                            className="object-cover rounded-md shadow-xl w-80 h-80"
+                            className="object-cover rounded-md shadow-xl xl:w-80 xl:h-80"
                             src={recipe.image}
                             alt={recipe.label}
                         />
@@ -282,7 +405,7 @@ function recipeDetails({ dbRecipe, dbComments }) {
                         ) : null}
                     </div>
 
-                    <p className="-mb-3 text-xl text-font-color-light">
+                    <p className="-mb-3 text-base xl:text-xl text-font-color-light">
                         My Rating
                     </p>
                     <ReactStars
@@ -291,7 +414,7 @@ function recipeDetails({ dbRecipe, dbComments }) {
                         value={personalRating}
                         onChange={changeRating}
                         edit={session?.user ? true : false}
-                        size={42}
+                        size={34}
                         isHalf={true}
                         emptyIcon={<i className="far fa-star"></i>}
                         halfIcon={<i className="fa fa-star-half-alt"></i>}
@@ -312,7 +435,7 @@ function recipeDetails({ dbRecipe, dbComments }) {
                             </h1>
                         </div>
                     ) : null}
-                    <div className="flex flex-col">
+                    <div className="flex-col xl:flex">
                         <div className="px-3 py-6 bg-ingredient-background">
                             <h1 className="text-3xl font-black">Ingredients</h1>
                             <ul className="flex flex-col mt-6 space-y-2">

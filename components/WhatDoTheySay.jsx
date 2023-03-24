@@ -37,16 +37,16 @@ function WhatDoTheySay() {
         // what do they say
         <div
             id="what-they-say"
-            className="flex flex-col items-center justify-center my-12 lg:my-0 lg:h-[100vh] 3xl:h-full">
+            className="flex flex-col items-center justify-center my-12 2xl:h-[100vh] 3xl:h-full">
             <h1 className="text-3xl font-bold lg:text-5xl text-font-color-light my-36">What do they say about us?</h1>
-            <div className="grid w-10/12 grid-cols-3 gap-20">
+            <div className="grid w-10/12 grid-cols-1 gap-20 md:grid-cols-2 place-items-start lg:grid-cols-3">
                 {
                     testemonials?.map((user, index) => (
                         <Fade
                             key={user?.id}
                             {...(index === 0 ? { left: true } : index === 1 ? { bottom: true } : index === 2 ? { right: true } : { bottom: true })}
                         >
-                            <div className="flex flex-col items-center justify-center w-10/12 px-6 mb-6 space-y-5">
+                            <div className="flex flex-col items-center justify-center w-10/12 px-6 mx-auto mb-6 space-y-5">
                                 <div className="flex items-center justify-center w-20 h-20 rounded-full bg-primary">
                                     <Image
                                         width={100}

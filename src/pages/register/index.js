@@ -16,9 +16,9 @@ export default function auth() {
     }
 
     return (
-        <div className="flex items-center justify-center w-9/12 mx-auto pt-28">
-            <div className="flex flex-col items-center w-1/3">
-                <h1 className="text-2xl 2xl:text-4xl font-bold text-primary">Sign in with Github</h1>
+        <div className="flex flex-wrap items-center justify-center w-9/12 mx-auto pt-28">
+            <div className="flex flex-col items-center w-full lg:w-1/2">
+                <h1 className="text-2xl font-bold 2xl:text-4xl text-primary">Sign in with Github</h1>
                 <img className="mt-12 w-36" src="/github-mark.png" alt="github" />
                 <div className="flex flex-col items-center justify-center w-1/2 mt-12">
                     <button
@@ -29,8 +29,8 @@ export default function auth() {
                 </div>
 
             </div>
-            <div className="flex flex-col items-center w-1/3">
-                <h1 className="text-2xl 2xl:text-4xl font-bold text-primary">Sign in with Google</h1>
+            <div className="flex flex-col items-center w-full lg:w-1/2">
+                <h1 className="text-2xl font-bold 2xl:text-4xl text-primary">Sign in with Google</h1>
                 <img className="mt-12 w-36" src="/google-mark.png" alt="google" />
                 <div className="flex flex-col items-center justify-center w-1/2 mt-12">
                     <button

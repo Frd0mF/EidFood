@@ -17,7 +17,7 @@ function SearchBar({ setIsRefreshing }) {
     return (
         <form
             onSubmit={submit}
-            className="flex flex-col justify-cente font-['Roboto'] my-12 px-2 md:px-12 py-6 xl:w-[1000px] 3xl:w-[50vw]">
+            className="flex flex-col justify-cente font-['Roboto'] my-12 px-2 md:px-12 py-6 w-full md:w-10/12 xl:w-[1000px] 3xl:w-[50vw]">
             <div className="flex flex-col justify-center">
                 <p className="md:text-2xl 3xl:text-4xl text-font-color-light">Search for your favorite recipes</p>
             </div>

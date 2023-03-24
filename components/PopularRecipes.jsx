@@ -7,8 +7,8 @@ function PopularRecipes({ topRecipes }) {
         <div
             id="popular-recipes"
         >
-            <h1 className="mb-6 text-3xl font-bold text-center lg:text-6xl text-font-color-light 3xl:mb-12">Popular Recipes </h1>
-            <div className='flex flex-wrap items-center justify-center space-x-12 xl:justify-between 3xl:justify-center  lg:space-y-0 lg:w-9/12 lg:min-h-[50vh] lg:mx-auto'>
+            <h1 className="mb-6 text-3xl font-bold text-center xl:text-6xl text-font-color-light 3xl:mb-12">Popular Recipes </h1>
+            <div className='flex flex-wrap items-center justify-center 2xl:space-x-0 3xl:space-x-12 sm:space-x-3 xl:justify-between 3xl:justify-center xl:space-y-0 xl:w-10/12 2xl:min-h-[50vh] xl:mx-auto'>
                 <Fade down>
                     {
                         topRecipes.map((recipe, index) => {

@@ -35,14 +35,14 @@ const Profile = ({ savedRecipes }) => {
                 <h1 className="text-4xl font-base text-primary">
                     Saved Recipes
                 </h1>
-                <div className="grid grid-cols-4 mt-6 gap-y-6 sm:w-full">
+                <div className="grid grid-cols-1 mt-6 md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4 gap-y-6 sm:w-full">
                     {
                         derivedRecipes?.map((recipe) => {
                             return (
                                 <div
                                     key={recipe.id}
                                     className="max-w-sm overflow-hidden rounded shadow-lg">
-                                    <img className="w-96 h-96" src={recipe.image} alt={recipe.label} />
+                                    <img className="w-96 xl:h-96" src={recipe.image} alt={recipe.label} />
                                     <div className="px-6 py-4">
                                         <div className="mb-2 text-xl font-bold truncate">{recipe.label}</div>
 
@@ -77,6 +77,8 @@ const Profile = ({ savedRecipes }) => {
 
 export default Profile
 
+
+import prisma from "../../lib/prismadb"
 export async function getServerSideProps(context) {
     const userSession = await getSession(context)
     //get all recipes

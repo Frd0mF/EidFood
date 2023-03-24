@@ -37,9 +37,9 @@ function index({ recipes, total }) {
     return (
         <div className="flex flex-col items-center">
             <SearchBar setIsRefreshing={setIsRefreshing} />
-            <p className="mb-12 -mt-12 text-2xl text-font-color-light">Total results: {total} (Showing first 20 due to API limits)</p>
-            <div className="flex items-start w-full">
-                <div className="flex flex-col items-center justify-center w-3/12 h-full ml-16">
+            <p className="mb-12 -mt-12 xl:text-2xl text-font-color-light">Total results: {total} (Showing first 20 due to API limits)</p>
+            <div className="flex flex-col items-start w-full md:flex-row">
+                <div className="flex flex-col justify-center w-full h-full mb-12 xl:ml-16 xl:items-center md:w-3/12">
                     <Filters />
                 </div>
                 {
@@ -51,7 +51,7 @@ function index({ recipes, total }) {
                         :
                         <div className={recipes.length === 0 ? 'w-full' : ''}>
                             <>
-                                {recipes.length === 0 && <p className="w-2/3 text-2xl text-center text-font-color-light">No recipes found or max requests reached</p>}
+                                {recipes.length === 0 && <p className="w-2/3 text-base text-center xl:text-2xl text-font-color-light">No recipes found or max requests reached</p>}
                                 {recipes.map((recipe, index) => (
                                     <ResultCard
                                         key={index}
