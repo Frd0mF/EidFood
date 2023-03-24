@@ -131,7 +131,7 @@ function recipeDetails({ dbRecipe, dbComments }) {
                                     ({recipe.yield} Servings)
                                 </h3>
                             </div>
-                            <div className="flex flex-row flex-wrap my-3 lg:flex-nowrap xl:space-x-12">
+                            <div className="flex flex-row flex-wrap my-3 lg:w-[35rem] xl:w-[50rem] lg:flex-nowrap xl:space-x-12">
                                 <div className="flex flex-col items-center w-1/2 mt-3 space-x-2 text-center lg:w-full md:w-1/3 xl:ml-4">
                                     {hours || minutes ? (
                                         <p className="text-base md:text-lg xl:text-xl text-font-color-light">
