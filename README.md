@@ -11,4 +11,4 @@ Recipes app using edamam api
 - [NextAuth.js](https://next-auth.js.org/)
 - [Prisma](https://prisma.io)
 - [Tailwind CSS](https://tailwindcss.com)
--[Cloudinary](https://cloudinary.com/)
+- [Cloudinary](https://cloudinary.com/)
